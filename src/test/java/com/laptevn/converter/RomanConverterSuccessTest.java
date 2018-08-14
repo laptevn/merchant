@@ -20,21 +20,15 @@ public class RomanConverterSuccessTest {
     }
 
     @Parameterized.Parameters(name = "{0} Roman is {1} Arabic")
-    public static Collection<Object[]> data() {
+    public static Collection<Object[]> initializeParameters() {
         return Arrays.asList(new Object[][] {
-                { "I", 1 },
-                { "V", 5 },
                 { "X", 10 },
-                { "L", 50 },
-                { "C", 100 },
-                { "D", 500 },
-                { "M", 1000 },
                 { "MMVI", 2006 },
                 { "MCMXLIV", 1944 },
                 { "MCMIII", 1903 },
                 { "XXXIX", 39 },
                 { "CC", 200 },
-                { "MMM", 200 },
+                { "MMM", 3000 },
                 { "DXC", 590 },
                 { "CD", 400 }
         });
@@ -42,6 +36,8 @@ public class RomanConverterSuccessTest {
 
     @Test
     public void verifyConversion() throws InvalidFormatException {
-        assertEquals(arabicNumeral, new RomanConverter().convert(romanNumeral));
+        assertEquals(arabicNumeral,
+                new RomanConverter(new RomanSymbolConverter(), new SubtractionValidator(), new RepetitionValidatorFactory())
+                        .convert(romanNumeral));
     }
 }

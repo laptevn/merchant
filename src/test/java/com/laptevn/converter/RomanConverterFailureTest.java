@@ -16,22 +16,19 @@ public class RomanConverterFailureTest {
     }
 
     @Parameterized.Parameters(name = "{0} Roman to Arabic")
-    public static Collection<Object[]> data() {
+    public static Collection<Object[]> initializeParameters() {
         return Arrays.asList(new Object[][] {
                 { "P" },
                 { "IXL" },
-                { "IIII" },
-                { "IM" },
-                { "XM" },
                 { "CCM" },
-                { "VX" },
-                { "LC" },
-                { "DM" }
+                { "IIII" },
+                { "IM" }
         });
     }
 
     @Test(expected = InvalidFormatException.class)
     public void verifyConversion() throws InvalidFormatException {
-        new RomanConverter().convert(romanNumeral);
+        new RomanConverter(new RomanSymbolConverter(), new SubtractionValidator(), new RepetitionValidatorFactory())
+                .convert(romanNumeral);
     }
 }
