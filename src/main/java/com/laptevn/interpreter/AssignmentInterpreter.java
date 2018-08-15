@@ -15,7 +15,7 @@ public class AssignmentInterpreter implements Interpreter {
     @Override
     public boolean interpret(String text, InterpreterContext context) throws InterpreterException {
         String[] parts = Constants.EXPRESSIONS_SEPARATOR_PATTERN.split(text);
-        if (parts.length != 2) {
+        if (parts.length != Constants.EXPRESSION_PARTS_COUNT) {
             return false;
         }
 

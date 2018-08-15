@@ -1,7 +1,5 @@
 package com.laptevn.interpreter;
 
-import com.laptevn.converter.RomanSymbolConverter;
-
 import java.util.Arrays;
 import java.util.List;
 
@@ -10,13 +8,15 @@ import java.util.List;
  */
 public class TextInterpreter {
     private final List<Interpreter> interpreters;
+    private final InterpreterContextFactory interpreterContextFactory;
 
-    public TextInterpreter(List<Interpreter> interpreters) {
+    public TextInterpreter(List<Interpreter> interpreters, InterpreterContextFactory interpreterContextFactory) {
         this.interpreters = interpreters;
+        this.interpreterContextFactory = interpreterContextFactory;
     }
 
     public String[] interpret(String[] lines) {
-        InterpreterContext interpreterContext = new InterpreterContext(new RomanSymbolConverter());
+        InterpreterContext interpreterContext = interpreterContextFactory.create();
         Arrays.stream(lines).forEach(line -> {
             if (!interpreters.stream().anyMatch(interpreter -> {
                 try {
