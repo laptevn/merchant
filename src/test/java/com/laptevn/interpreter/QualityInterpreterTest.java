@@ -6,34 +6,36 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 
 public class QualityInterpreterTest {
+    private final InterpreterContextFactory interpreterContextFactory = new InterpreterContextFactory();
+
     @Test
     public void wrongNumberOfParts() throws InterpreterException {
-        assertFalse(new QualityInterpreter().interpret("ab cd", new InterpreterContextFactory().create()));
+        assertFalse(new QualityInterpreter().interpret("ab cd", interpreterContextFactory.create()));
     }
 
     @Test
     public void noLeftPart() throws InterpreterException {
-        assertFalse(new QualityInterpreter().interpret("is 34 Credits", new InterpreterContextFactory().create()));
+        assertFalse(new QualityInterpreter().interpret("is 34 Credits", interpreterContextFactory.create()));
     }
 
     @Test
     public void noRightPart() throws InterpreterException {
-        assertFalse(new QualityInterpreter().interpret("glob Silver is", new InterpreterContextFactory().create()));
+        assertFalse(new QualityInterpreter().interpret("glob Silver is", interpreterContextFactory.create()));
     }
 
     @Test
     public void noNumberInRightPart() throws InterpreterException {
-        assertFalse(new QualityInterpreter().interpret("glob Silver is Credits", new InterpreterContextFactory().create()));
+        assertFalse(new QualityInterpreter().interpret("glob Silver is Credits", interpreterContextFactory.create()));
     }
 
     @Test(expected = InterpreterException.class)
     public void tooManyUnknowns() throws InterpreterException {
-        new QualityInterpreter().interpret("glob Silver is 34 Credits", new InterpreterContextFactory().create());
+        new QualityInterpreter().interpret("glob Silver is 34 Credits", interpreterContextFactory.create());
     }
 
     @Test
     public void oneNumeralSymbol() throws InterpreterException {
-        InterpreterContext context = new InterpreterContextFactory().create();
+        InterpreterContext context = interpreterContextFactory.create();
         context.getItemToNumeralTranslation().put("glob", "I");
         new QualityInterpreter().interpret("glob glob Silver is 33 Credits", context);
         assertEquals(16.5f, context.getQualityFactors().get("Silver"), 0.1f);
@@ -41,7 +43,7 @@ public class QualityInterpreterTest {
 
     @Test
     public void manyNumeralSymbols() throws InterpreterException {
-        InterpreterContext context = new InterpreterContextFactory().create();
+        InterpreterContext context = interpreterContextFactory.create();
         context.getItemToNumeralTranslation().put("glob", "I");
         context.getItemToNumeralTranslation().put("prok", "V");
         new QualityInterpreter().interpret("glob prok Gold is 36 Credits", context);
@@ -50,14 +52,14 @@ public class QualityInterpreterTest {
 
     @Test
     public void noNumeralSymbols() throws InterpreterException {
-        InterpreterContext context = new InterpreterContextFactory().create();
+        InterpreterContext context = interpreterContextFactory.create();
         new QualityInterpreter().interpret("Gold is 36", context);
         assertEquals(36f, context.getQualityFactors().get("Gold"), 0.1f);
     }
 
     @Test(expected = InterpreterException.class)
     public void invalidRomanFormat() throws InterpreterException {
-        InterpreterContext context = new InterpreterContextFactory().create();
+        InterpreterContext context = interpreterContextFactory.create();
         context.getItemToNumeralTranslation().put("glob", "I");
         context.getItemToNumeralTranslation().put("prok", "V");
         new QualityInterpreter().interpret("glob glob prok Gold is 36 Credits", context);
@@ -65,7 +67,7 @@ public class QualityInterpreterTest {
 
     @Test(expected = InterpreterException.class)
     public void noQuality() throws InterpreterException {
-        InterpreterContext context = new InterpreterContextFactory().create();
+        InterpreterContext context = interpreterContextFactory.create();
         context.getItemToNumeralTranslation().put("glob", "I");
         context.getItemToNumeralTranslation().put("prok", "V");
         new QualityInterpreter().interpret("glob prok is 36 Credits", context);

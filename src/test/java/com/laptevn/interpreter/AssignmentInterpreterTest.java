@@ -7,39 +7,41 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 public class AssignmentInterpreterTest {
+    private final InterpreterContextFactory interpreterContextFactory = new InterpreterContextFactory();
+
     @Test
     public void wrongNumberOfParts() throws InterpreterException {
-        assertFalse(new AssignmentInterpreter().interpret("asd asd", new InterpreterContextFactory().create()));
+        assertFalse(new AssignmentInterpreter().interpret("asd asd", interpreterContextFactory.create()));
     }
 
     @Test
     public void noLeftPart() throws InterpreterException {
-        assertFalse(new AssignmentInterpreter().interpret("is X", new InterpreterContextFactory().create()));
+        assertFalse(new AssignmentInterpreter().interpret("is X", interpreterContextFactory.create()));
     }
 
     @Test
     public void tooManyLeftParts() throws InterpreterException {
-        assertFalse(new AssignmentInterpreter().interpret("glob glob Silver is X", new InterpreterContextFactory().create()));
+        assertFalse(new AssignmentInterpreter().interpret("glob glob Silver is X", interpreterContextFactory.create()));
     }
 
     @Test
     public void noRightPart() throws InterpreterException {
-        assertFalse(new AssignmentInterpreter().interpret("glob is", new InterpreterContextFactory().create()));
+        assertFalse(new AssignmentInterpreter().interpret("glob is", interpreterContextFactory.create()));
     }
 
     @Test
     public void tooManyRightParts() throws InterpreterException {
-        assertFalse(new AssignmentInterpreter().interpret("glob is X L", new InterpreterContextFactory().create()));
+        assertFalse(new AssignmentInterpreter().interpret("glob is X L", interpreterContextFactory.create()));
     }
 
     @Test(expected = InterpreterException.class)
     public void invalidRomanNumeral() throws InterpreterException {
-        new AssignmentInterpreter().interpret("glob is P", new InterpreterContextFactory().create());
+        new AssignmentInterpreter().interpret("glob is P", interpreterContextFactory.create());
     }
 
     @Test
     public void correctAssignment() throws InterpreterException {
-        InterpreterContext context = new InterpreterContextFactory().create();
+        InterpreterContext context = interpreterContextFactory.create();
         assertTrue(new AssignmentInterpreter().interpret("glob is X", context));
         assertEquals("X", context.getItemToNumeralTranslation().get("glob"));
     }
