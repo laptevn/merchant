@@ -27,7 +27,7 @@ public class RomanSymbolConverter {
         return conversions.get(romanSymbol);
     }
 
-    boolean isValidRomanSymbol(char romanSymbol) {
+    public boolean isValidRomanSymbol(char romanSymbol) {
         return conversions.containsKey(romanSymbol);
     }
 }
