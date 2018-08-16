@@ -1,12 +1,18 @@
 package com.laptevn.interpreter;
 
+import org.apache.log4j.Logger;
+
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Interprets text and produces output with a result.
  */
 public class TextInterpreter {
+    private static final String ERROR_UNKNOWN_TEXT = "I have no idea what you are talking about";
+
+    private final static Logger logger = Logger.getLogger(TextInterpreter.class);
     private final List<Interpreter> interpreters;
     private final InterpreterContextFactory interpreterContextFactory;
 
@@ -16,20 +22,23 @@ public class TextInterpreter {
     }
 
     public String[] interpret(String[] lines) {
-        InterpreterContext interpreterContext = interpreterContextFactory.create();
+        Objects.requireNonNull(lines);
+
+        InterpreterContext context = interpreterContextFactory.create();
         Arrays.stream(lines).forEach(line -> {
             if (!interpreters.stream().anyMatch(interpreter -> {
                 try {
-                    return interpreter.interpret(line.trim(), interpreterContext);
+                    return interpreter.interpret(line.trim(), context);
                 } catch (InterpreterException e) {
-                    //TODO: Handle exception by writing it to output
+                    logger.info("Cannot interpret a line", e);
+                    context.getAnswers().add(String.format("Error: %s", e.getMessage()));
                     return true;
                 }
             })) {
-                //TODO: Handle error here. Either stop further execution or continue it.
+                context.getAnswers().add(ERROR_UNKNOWN_TEXT);
             }
         });
 
-        return null;
+        return context.getAnswers().toArray(new String[context.getAnswers().size()]);
     }
 }
