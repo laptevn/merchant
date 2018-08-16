@@ -1,5 +1,6 @@
 package com.laptevn.interpreter;
 
+import net.jcip.annotations.ThreadSafe;
 import org.apache.log4j.Logger;
 
 import java.util.Arrays;
@@ -9,6 +10,7 @@ import java.util.Objects;
 /**
  * Interprets text and produces output with a result.
  */
+@ThreadSafe
 public class TextInterpreter {
     private static final String ERROR_UNKNOWN_TEXT = "I have no idea what you are talking about";
 
