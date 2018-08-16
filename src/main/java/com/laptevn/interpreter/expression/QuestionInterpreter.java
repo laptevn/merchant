@@ -1,4 +1,4 @@
-package com.laptevn.interpreter;
+package com.laptevn.interpreter.expression;
 
 import net.jcip.annotations.NotThreadSafe;
 

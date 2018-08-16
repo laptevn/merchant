@@ -1,4 +1,4 @@
-package com.laptevn.interpreter;
+package com.laptevn.interpreter.expression;
 
 import com.laptevn.converter.InvalidFormatException;
 import net.jcip.annotations.NotThreadSafe;

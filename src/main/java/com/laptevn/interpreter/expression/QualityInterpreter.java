@@ -1,4 +1,4 @@
-package com.laptevn.interpreter; //TODO: Think about moving all interpreters to a separate package
+package com.laptevn.interpreter.expression;
 
 import net.jcip.annotations.NotThreadSafe;
 

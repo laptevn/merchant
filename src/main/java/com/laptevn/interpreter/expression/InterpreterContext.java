@@ -1,4 +1,4 @@
-package com.laptevn.interpreter;
+package com.laptevn.interpreter.expression;
 
 import com.laptevn.converter.Converter;
 import com.laptevn.converter.RomanSymbolConverter;
@@ -8,7 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-class InterpreterContext {
+public class InterpreterContext {
     private final RomanSymbolConverter romanSymbolConverter;
     private final Converter converter;
     private final Map<String, String> itemToNumeralTranslation = new HashMap<>();
@@ -20,19 +20,19 @@ class InterpreterContext {
         this.converter = converter;
     }
 
-    public RomanSymbolConverter getRomanSymbolConverter() {
+    RomanSymbolConverter getRomanSymbolConverter() {
         return romanSymbolConverter;
     }
 
-    public Converter getConverter() {
+    Converter getConverter() {
         return converter;
     }
 
-    public Map<String, String> getItemToNumeralTranslation() { //TODO: Think of hiding Map behind an abstraction
+    Map<String, String> getItemToNumeralTranslation() {
         return itemToNumeralTranslation;
     }
 
-    public Map<String, Float> getQualityFactors() {
+    Map<String, Float> getQualityFactors() {
         return qualityFactors;
     }
 

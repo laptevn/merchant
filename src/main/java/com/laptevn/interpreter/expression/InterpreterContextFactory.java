@@ -1,4 +1,4 @@
-package com.laptevn.interpreter;
+package com.laptevn.interpreter.expression;
 
 import com.laptevn.converter.RepetitionValidatorFactory;
 import com.laptevn.converter.RomanConverter;
@@ -8,7 +8,7 @@ import com.laptevn.converter.SubtractionValidator;
 /**
  * Creates an instance of {@link InterpreterContext InterpreterContext} class.
  */
-class InterpreterContextFactory {
+public class InterpreterContextFactory {
     public InterpreterContext create() {
         RomanSymbolConverter romanSymbolConverter = new RomanSymbolConverter();
         return new InterpreterContext(
