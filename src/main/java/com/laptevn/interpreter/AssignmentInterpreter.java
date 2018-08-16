@@ -9,9 +9,6 @@ import java.util.Optional;
  */
 @NotThreadSafe
 public class AssignmentInterpreter implements Interpreter {
-    /**
-     * @throws InterpreterException if there is an issue with assignment interpretation.
-     */
     @Override
     public boolean interpret(String text, InterpreterContext context) throws InterpreterException {
         String[] parts = Constants.EXPRESSIONS_SEPARATOR_PATTERN.split(text);

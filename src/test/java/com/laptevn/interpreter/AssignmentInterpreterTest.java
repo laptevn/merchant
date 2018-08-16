@@ -10,6 +10,16 @@ public class AssignmentInterpreterTest {
     private final InterpreterContextFactory interpreterContextFactory = new InterpreterContextFactory();
 
     @Test
+    public void emptyText() throws InterpreterException {
+        assertFalse(new AssignmentInterpreter().interpret("", interpreterContextFactory.create()));
+    }
+
+    @Test(expected = NullPointerException.class)
+    public void nullText() throws InterpreterException {
+        assertFalse(new AssignmentInterpreter().interpret(null, interpreterContextFactory.create()));
+    }
+
+    @Test
     public void wrongNumberOfParts() throws InterpreterException {
         assertFalse(new AssignmentInterpreter().interpret("asd asd", interpreterContextFactory.create()));
     }

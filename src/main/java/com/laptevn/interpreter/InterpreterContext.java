@@ -3,7 +3,9 @@ package com.laptevn.interpreter;
 import com.laptevn.converter.Converter;
 import com.laptevn.converter.RomanSymbolConverter;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 class InterpreterContext {
@@ -11,6 +13,7 @@ class InterpreterContext {
     private final Converter converter;
     private final Map<String, String> itemToNumeralTranslation = new HashMap<>();
     private final Map<String, Float> qualityFactors = new HashMap<>();
+    private final List<String> answers = new ArrayList<>();
 
     public InterpreterContext(RomanSymbolConverter romanSymbolConverter, Converter converter) {
         this.romanSymbolConverter = romanSymbolConverter;
@@ -31,5 +34,9 @@ class InterpreterContext {
 
     public Map<String, Float> getQualityFactors() {
         return qualityFactors;
+    }
+
+    public List<String> getAnswers() {
+        return answers;
     }
 }

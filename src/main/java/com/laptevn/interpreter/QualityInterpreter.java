@@ -1,6 +1,6 @@
 package com.laptevn.interpreter; //TODO: Think about moving all interpreters to a separate package
 
-import com.laptevn.converter.InvalidFormatException;
+import net.jcip.annotations.NotThreadSafe;
 
 import java.util.Arrays;
 import java.util.Optional;
@@ -8,7 +8,14 @@ import java.util.Optional;
 /**
  * Interprets quality items like Gold in "glob prok Gold is 57800 Credits".
  */
+@NotThreadSafe
 public class QualityInterpreter implements Interpreter {
+    private final NumeralExtractor numeralExtractor;
+
+    public QualityInterpreter(NumeralExtractor numeralExtractor) {
+        this.numeralExtractor = numeralExtractor;
+    }
+
     @Override
     public boolean interpret(String text, InterpreterContext context) throws InterpreterException {
         String[] parts = Constants.EXPRESSIONS_SEPARATOR_PATTERN.split(text);
@@ -27,7 +34,7 @@ public class QualityInterpreter implements Interpreter {
         }
 
         String[] leftParts = Constants.WORDS_SEPARATOR_PATTERN.split(parts[0].trim());
-        Optional<Integer> numeral = extractNumeral(Arrays.copyOfRange(leftParts, 0, leftParts.length - 1), context);
+        Optional<Integer> numeral = numeralExtractor.extract(Arrays.copyOfRange(leftParts, 0, leftParts.length - 1), context);
         float factor = numeral.isPresent() ? (float) totalPrice.get() / numeral.get() : (float) totalPrice.get();
 
         String quality = leftParts[leftParts.length - 1].trim();
@@ -48,25 +55,5 @@ public class QualityInterpreter implements Interpreter {
         }
 
         return Optional.empty();
-    }
-
-    private static Optional<Integer> extractNumeral(String[] numeralSymbols, InterpreterContext context) throws InterpreterException {
-        StringBuilder numeral = new StringBuilder();
-        for (String numeralSymbol : numeralSymbols) {
-            String trimmedSymbol = numeralSymbol.trim();
-            if (!context.getItemToNumeralTranslation().containsKey(trimmedSymbol)) {
-                throw new InterpreterException("Numeral symbol is not defined");
-            }
-
-            numeral.append(context.getItemToNumeralTranslation().get(trimmedSymbol));
-        }
-
-        try {
-            return numeral.length() <= 0
-                    ? Optional.empty()
-                    : Optional.of(context.getConverter().convert(numeral.toString()));
-        } catch (InvalidFormatException e) {
-            throw new InterpreterException("Cannot interpret a numeral", e);
-        }
     }
 }
