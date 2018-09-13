@@ -1,4 +1,5 @@
 # Merchant
+See task.md for task definition
 ## Review
 The project contains of 3 parts - converter, interpreter and client.<br/>
 The converter is used by the interpreter to convert Roman-Arabic digits. The client provides command line interface and uses the interpreter inside.<br/>
